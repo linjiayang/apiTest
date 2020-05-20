@@ -18,67 +18,38 @@ public class ExcelUtill {
     public static Map<String,Integer> cellNameCellNum=new HashMap<String,Integer>();
     public static Workbook workbook;
     static {
-        LoadMapping("src/main/resources/test.xlsx","type");
-    }
-    private static void LoadMapping(String Path,String sheetName){
         InputStream inputStream=null;
         try {
-            inputStream=new FileInputStream(Path);
-             workbook=WorkbookFactory.create(inputStream);
-            Sheet sheet=workbook.getSheet(sheetName);
-            Row first=sheet.getRow(0);
-            if(first!=null&&!isEmptyRow(first)){
-                int cellNum=first.getLastCellNum();
-                for(int i=0;i<cellNum;i++){
-                    Cell cell=first.getCell(i,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    cell.setCellType(CellType.STRING);
-                    String title=cell.getStringCellValue();
-                    int index=cell.getAddress().getColumn();
-                    cellNameCellNum.put(title,index);
-                }
-                for(int i=1;i<=sheet.getLastRowNum();i++){
-                    Row row=sheet.getRow(i);
-                    Cell cell= row.getCell(0,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    cell.setCellType(CellType.STRING);
-                    String CaseId=cell.getStringCellValue();
-                    int rowNum=row.getRowNum();
-                    caseIdRowNum.put(CaseId,rowNum);
-                }
-            }
-        } catch (Exception e) {
+            inputStream=new FileInputStream("src/main/resources/test.xlsx");
+            workbook=WorkbookFactory.create(inputStream);}catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try {
-                if(inputStream!=null){
-                    inputStream.close();}
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+
     }
+
     /*   加载excel数据*/
-    public static <T> List<T> load(String url,String sheetName,Class<T> clazz){
-          if(null==url||"".equals(url)){
+    public static <T> List<T> load(String sheetName,Class<T> clazz){
+         /* if(null==url||"".equals(url)){
               return null;
           }
          Workbook excel;
         InputStream is;
         try {
             is=new FileInputStream(url);
-            /*if(url.endsWith(".xls")){
+            *//*if(url.endsWith(".xls")){
 
                 excel = new HSSFWorkbook(is);
                 } else {
                 excel = new XSSFWorkbook(is);
                 }
-                is.close();*/
+                is.close();*//*
             return transToObject(clazz, workbook, sheetName);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("转换excel文件失败：" + e.getMessage());
-        }
+        }*/
 
-
+        return transToObject(clazz, workbook, sheetName);
     }
 
     private static <T> List<T> transToObject(Class<T> clazz, Workbook xssfWorkbook, String sheetName){
@@ -121,18 +92,37 @@ public class ExcelUtill {
          return list;
     }
     /*
-    * 回显数据，Map的key为caseId，value为写入数据
+    * 回写数据，Map的key为caseId，value为写入数据
     * */
     public static <T> void save(Class<T> clazz,String url,String sheetName,Map<String,String> map,String field ){
-
+        //读取caseId和列名对应的索引
+        Sheet sheet=workbook.getSheet(sheetName);
+        Row first=sheet.getRow(0);
+        if(first!=null&&!isEmptyRow(first)){
+            int cellNum=first.getLastCellNum();
+            for(int i=0;i<cellNum;i++){
+                Cell cell=first.getCell(i,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                cell.setCellType(CellType.STRING);
+                String title=cell.getStringCellValue();
+                int index=cell.getAddress().getColumn();
+                cellNameCellNum.put(title,index);
+            }
+            for(int i=1;i<=sheet.getLastRowNum();i++){
+                Row row=sheet.getRow(i);
+                Cell cell= row.getCell(0,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                cell.setCellType(CellType.STRING);
+                String CaseId=cell.getStringCellValue();
+                int rowNum=row.getRowNum();
+                caseIdRowNum.put(CaseId,rowNum);
+            }
+        }
+        //将数据存到表格中
         OutputStream outputStream=null;
         try {
             for(Map.Entry<String,String> entry:map.entrySet()){
                 int rowNum=caseIdRowNum.get(entry.getKey());
                 int cellNum=cellNameCellNum.get(field);
                 outputStream=new FileOutputStream(url);
-
-                Sheet sheet=workbook.getSheet(sheetName);
                 Row row=sheet.getRow(rowNum);
                 Cell cell=row.getCell(cellNum,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 cell.setCellType(CellType.STRING);
@@ -200,16 +190,20 @@ public class ExcelUtill {
     }
   @Test
     public void testLoad(){
-        List<Case> list=load("src/main/resources/test.xlsx","type",Case.class);
+        List<Case> list=load("type",Case.class);
        Iterator<Case> i= list.iterator();
        while (i.hasNext()){
           Case c= i.next();
            System.out.println(c);
        }
-      /* Map<String,String> map=new HashMap<String,String>();
-       map.put("1","1");
-      map.put("2","1");
-       save(Case.class,"src/main/resources/test.xlsx","type",map,"save");*/
+
 
   }
+    @Test
+    public void testSave(){
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("1","1");
+        map.put("3","1");
+        save(Case.class,"src/main/resources/test.xlsx","type",map,"save");
+    }
 }
