@@ -21,7 +21,8 @@ public class ExcelUtill {
         InputStream inputStream=null;
         try {
             inputStream=new FileInputStream("src/main/resources/test.xlsx");
-            workbook=WorkbookFactory.create(inputStream);}catch (Exception e) {
+            workbook=WorkbookFactory.create(inputStream);}
+            catch (Exception e) {
             e.printStackTrace();
         }
 

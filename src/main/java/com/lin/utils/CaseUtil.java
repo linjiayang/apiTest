@@ -13,7 +13,7 @@ public class CaseUtil {
 
     public static Object[][] getCaseData(String[] Fields, String sheetName){
         Class clazz=Case.class;
-        list=ExcelUtill.load("type",Case.class);
+        list=ExcelUtill.load(sheetName,Case.class);
         ArrayList<Case> csList=new ArrayList<Case>();
         for(Case c:list){
             if(c.getRun().trim().equals("1")){
