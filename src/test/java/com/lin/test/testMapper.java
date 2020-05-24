@@ -1,6 +1,7 @@
 package com.lin.test;
 
 import com.lin.beans.knowledgecollection;
+import com.lin.utils.SQLSessionUtil;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,26 +10,18 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
+
 import com.lin.beans.knowledgecollection;
 
 public class testMapper {
     @Test
     public void userFindByIdTest(){
-        //定义读取文件名
-        String resources = "mybatis-config.xml";
-        //创建流
-        Reader reader=null;
-        try {
-            //读取mybatis-config.xml文件到reader对象中
-            reader= Resources.getResourceAsReader(resources);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //初始化mybatis,创建SqlSessionFactory类的实例
-        SqlSessionFactory sqlMapper=new SqlSessionFactoryBuilder().build(reader);
-        //创建session实例
-        SqlSession session=sqlMapper.openSession();
-        //传入参数查询，返回结果
-        knowledgecollection knowlegdecollection=session.selectOne("findById",232);
-        System.out.println(knowlegdecollection);
+        SqlSession sqlSession=SQLSessionUtil.getSqlSession("mybatis-config.xml");
+        /*knowledgecollection k=new knowledgecollection();
+        k.setUserId(161403);
+        k.setKnowledgeId(5);*/
+        Integer num=sqlSession.selectOne("findCollectionNum",161403);
+        System.out.println("sun"+num);
+
     }}

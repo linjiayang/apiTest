@@ -8,6 +8,9 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <typeAliases>
+        <package name="com.lin.beans"/>
+    </typeAliases>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>

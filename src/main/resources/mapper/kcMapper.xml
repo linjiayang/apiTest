@@ -5,4 +5,22 @@
 <mapper namespace="com.lin.beans.knowledgecollection">
     <select id="findById" parameterType="int" resultType="com.lin.beans.knowledgecollection">
         select * from knowledgecollection where id = #{id} </select>
+
+    <select id="findBySelect" resultType="knowledgecollection" >
+           select * from knowledgecollection
+           <trim prefix="where" suffixOverrides="and">
+               <if test="id!=null">
+                   id=#{id} and
+               </if>
+               <if test="userId!=null">
+                   user_id=#{userId} and
+               </if >
+               <if test="knowledgeId!=null">
+                   knowledge_id=#{knowledgeId} and
+               </if >
+           </trim>
+    </select>
+    <select id="findCollectionNum" resultType="Integer" parameterType="Integer">
+        select count(*) from knowledgecollection where user_id= #{userId}
+    </select>
 </mapper>
