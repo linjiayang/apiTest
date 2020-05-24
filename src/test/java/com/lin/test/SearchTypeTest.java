@@ -54,7 +54,7 @@ public class SearchTypeTest {
     }
     @AfterClass
     public void afterClass(){
-        System.out.println(writeBack.size()+"++++++++++++++");
+
         for(Map.Entry<String,String> entry:writeBack.entrySet() ){
             System.out.println(entry.getKey()+entry.getValue());
         }
