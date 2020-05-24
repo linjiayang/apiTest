@@ -9,6 +9,10 @@ public class Case {
     private String verify;
     private String run;
     private String save;
+    private String preCheck;
+    private String preResult;
+    private String afterCheck;
+    private String afterResult;
 
     public String getId() {
         return id;
@@ -74,6 +78,38 @@ public class Case {
         this.save = save;
     }
 
+    public String getPreCheck() {
+        return preCheck;
+    }
+
+    public void setPreCheck(String preCheck) {
+        this.preCheck = preCheck;
+    }
+
+    public String getPreResult() {
+        return preResult;
+    }
+
+    public void setPreResult(String preResult) {
+        this.preResult = preResult;
+    }
+
+    public String getAfterCheck() {
+        return afterCheck;
+    }
+
+    public void setAfterCheck(String afterCheck) {
+        this.afterCheck = afterCheck;
+    }
+
+    public String getAfterResult() {
+        return afterResult;
+    }
+
+    public void setAfterResult(String afterResult) {
+        this.afterResult = afterResult;
+    }
+
     @Override
     public String toString() {
         return "Case{" +
@@ -85,6 +121,10 @@ public class Case {
                 ", verify='" + verify + '\'' +
                 ", run='" + run + '\'' +
                 ", save='" + save + '\'' +
+                ", preCheck='" + preCheck + '\'' +
+                ", preResult='" + preResult + '\'' +
+                ", afterCheck='" + afterCheck + '\'' +
+                ", afterResult='" + afterResult + '\'' +
                 '}';
     }
 }
