@@ -28,7 +28,7 @@ public class ExcelUtill {
 
     }
 
-    /*   ¼ÓÔØexcelÊý¾Ý*/
+    /*   ï¿½ï¿½ï¿½ï¿½excelï¿½ï¿½ï¿½*/
     public static <T> List<T> load(String sheetName,Class<T> clazz){
          /* if(null==url||"".equals(url)){
               return null;
@@ -47,7 +47,7 @@ public class ExcelUtill {
             return transToObject(clazz, workbook, sheetName);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("×ª»»excelÎÄ¼þÊ§°Ü£º" + e.getMessage());
+            throw new RuntimeException("×ªï¿½ï¿½excelï¿½Ä¼ï¿½Ê§ï¿½Ü£ï¿½" + e.getMessage());
         }*/
 
         return transToObject(clazz, workbook, sheetName);
@@ -57,7 +57,7 @@ public class ExcelUtill {
         List<T> list=new ArrayList<T>();
         try {
             Sheet sheet= xssfWorkbook.getSheet(sheetName);
-            //ÏÈ¶ÁÈ¡ÁÐÃû
+            //ï¿½È¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
             Row Firstrow=sheet.getRow(0);
             int num=Firstrow.getLastCellNum();
             System.out.println(num+"-------------------");
@@ -68,7 +68,7 @@ public class ExcelUtill {
                 String name=getValue(cell);
                 field[i]=name;
             }
-            //forÑ­»·É¨ÃèÊý¾Ý
+            //forÑ­ï¿½ï¿½É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             int lastRow=sheet.getLastRowNum();
             for(int i=1;i<=lastRow;i++){
                 Row rowValue=sheet.getRow(i);
@@ -87,16 +87,16 @@ public class ExcelUtill {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("¼ÓÔØÊý¾Ý´íÎó");
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½");
         }
 
          return list;
     }
     /*
-    * »ØÐ´Êý¾Ý£¬MapµÄkeyÎªcaseId£¬valueÎªÐ´ÈëÊý¾Ý
+    * ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ý£ï¿½Mapï¿½ï¿½keyÎªcaseIdï¿½ï¿½valueÎªÐ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     * */
     public static <T> void save(Class<T> clazz,String url,String sheetName,Map<String,String> map,String field ){
-        //¶ÁÈ¡caseIdºÍÁÐÃû¶ÔÓ¦µÄË÷Òý
+        //ï¿½ï¿½È¡caseIdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Sheet sheet=workbook.getSheet(sheetName);
         Row first=sheet.getRow(0);
         if(first!=null&&!isEmptyRow(first)){
@@ -117,7 +117,7 @@ public class ExcelUtill {
                 caseIdRowNum.put(CaseId,rowNum);
             }
         }
-        //½«Êý¾Ý´æµ½±í¸ñÖÐ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ý´æµ½ï¿½ï¿½ï¿½ï¿½ï¿½
         OutputStream outputStream=null;
         try {
             for(Map.Entry<String,String> entry:map.entrySet()){
@@ -144,7 +144,7 @@ public class ExcelUtill {
 
     }
     /*
-    * »ñÈ¡µ¥Ôª¸ñµÄÖµ
+    * ï¿½ï¿½È¡ï¿½ï¿½Ôªï¿½ï¿½ï¿½Öµ
     *
     *
     * */
@@ -152,13 +152,13 @@ public class ExcelUtill {
         if (null == cell) {
             return "";
         } else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
-            // ·µ»Ø²¼¶ûÀàÐÍµÄÖµ
+            // ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Öµ
             return String.valueOf(cell.getBooleanCellValue());
         } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
-            // ·µ»ØÊýÖµÀàÐÍµÄÖµ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Íµï¿½Öµ
             return String.valueOf(cell.getNumericCellValue());
         } else {
-            // ·µ»Ø×Ö·û´®ÀàÐÍµÄÖµ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Öµ
             return String.valueOf(cell.getStringCellValue());
         }
     }
@@ -176,7 +176,7 @@ public class ExcelUtill {
         return true;
     }
 /*
-* »ñÈ¡·´Éä·½·¨
+* ï¿½ï¿½È¡ï¿½ï¿½ï¿½ä·½ï¿½ï¿½
 * */
     private static Method getMethod(String Field,Class<?> clazz){
         Method[] methods=clazz.getMethods();
