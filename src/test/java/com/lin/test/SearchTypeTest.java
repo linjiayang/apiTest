@@ -11,6 +11,7 @@ import com.lin.utils.parseUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,12 +25,15 @@ public class SearchTypeTest {
 
     @Test(dataProvider ="Cases" )
     public void testSearchType(String id, String method,String url,String param,String verify) {
+        Reporter.log("这是testSearchType第"+id+"个");
         Map<String, String> headers = new HashMap<String, String>();
         HttpResponse response = HttpUtil.request(headers, url, param, method);
         Assert.assertEquals(200, response.getStatusLine().getStatusCode(), "状态码错误");
         String result = null;
         try {
             result = EntityUtils.toString(response.getEntity(), "utf-8");
+            if(response.getEntity()!=null){
+            response.getEntity().consumeContent();}
         } catch (IOException e) {
             e.printStackTrace();
         }

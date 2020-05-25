@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.*;
 import sun.net.www.ParseUtil;
 
